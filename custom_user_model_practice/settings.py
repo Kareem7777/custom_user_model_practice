@@ -121,6 +121,13 @@ LOGIN_REDIRECT_URL = '/home'
 LOGIN_URL = 'login/'
 LOGOUT_REDIRECT_URL = 'accounts/login'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = 'quadracode4@gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = 'u+u8UNj6p!=CJP?8'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

@@ -1,10 +1,7 @@
 from django.forms import ValidationError
 from django.shortcuts import render, redirect
-#from .helpers import generate_activation_key 
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
-from django.conf import settings
-from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model ,logout ,login
 from django.contrib.auth.decorators import  login_required
 
@@ -15,10 +12,8 @@ User = get_user_model()
 @login_required
 def home(request):
   title = 'Home Page'
-  x = 'Hello'
   context = {
     'title':title,
-    'x':x,
   }
   return render(request, 'home.html', context)
 
@@ -50,11 +45,35 @@ def register_view(request):
         password = password,
       )
       new_user.save()
+      new = User.objects.get(email=email)
+      new2 = new.id
+      send_mail(
+        'Test Email',
+        f'''
+        Hello {first_name}\n
+        This Is Testing  Email Send\n
+        Activate Your Account Here: http://127.0.0.1:8000/user/activate/{new2}
+        ''',
+        'quadracode4@gmail.com',
+        [email, 'fomr777@gmail.com'],
+        fail_silently=False )
       return redirect('login_url')
   context = {
     'title' : title,
   }
   return render(request, 'register.html', context)
+
+def activate_view(request, id):
+  title = 'Activate Account'
+  activate = User.objects.get(id=id)
+  name = f'{activate.first_name} {activate.last_name}'
+  activate.activated = True
+  activate.save()
+  context = {
+    'title':title,
+    'name':name,
+  }
+  return render(request, 'activate.html', context)
 
 def login_view(request):
   title = 'Login Page'
