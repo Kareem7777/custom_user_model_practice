@@ -32,6 +32,18 @@ class UserManager(BaseUserManager):
     )
     return user
 
+  def create_adminuser(self, email, username, first_name, last_name, password=None):
+    user = self.create_user(
+      email = self.normalize_email(email),
+      password = password,
+      username = username,
+      first_name = first_name,
+      last_name = last_name,
+      is_staff = True,
+      is_admin = True
+    )
+    return user
+
   def create_superuser(self, email, username, first_name, last_name, password=None):
     user = self.create_user(
       email = self.normalize_email(email),
@@ -42,6 +54,7 @@ class UserManager(BaseUserManager):
     )
     user.is_staff = True
     user.is_admin = True
+    user.is_superuser = True
     user.save(using=self.db)
     return user
 
@@ -52,6 +65,7 @@ class User(AbstractBaseUser):
   is_admin = models.BooleanField(default=False)
   is_active = models.BooleanField(default=True)
   is_staff = models.BooleanField(default=False)
+  is_superuser = models.BooleanField(default=False)
   first_name = models.CharField(max_length=20)
   last_name = models.CharField(max_length=20)
   activated = models.BooleanField(default=False)

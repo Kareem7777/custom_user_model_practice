@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}}</title>
+</head>
+<body>
+  <form method="POST">
+    {% csrf_token %}
+    <input type="email" name="email" id="" placeholder="Email">
+    <input type="username" name="username" id="" placeholder="Username">
+    <input type="text" name="first_name" id="" placeholder="First Name">
+    <input type="text" name="last_name" id="" placeholder="Last Name">
+    <input type="password" name="password" id="" placeholder="Enter Password">
+    <input type="password" name="password_2" id="" placeholder="Confirm Password">
+    <button type="submit">Register</button>
+  </form><br>
+  <label for="login">Have An Account?</label>
+  <button id="login"><a href="{% url 'login_url' %}">Login</a></button>
+</body>
+</html>
