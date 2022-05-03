@@ -45,18 +45,19 @@ def register_view(request):
         password = password,
       )
       new_user.save()
-      new = User.objects.get(email=email)
-      new2 = new.id
+      user = User.objects.get(email=email)
+      user_id = user.id
       send_mail(
-        'Test Email',
+        'Activate Your Email',
         f'''
         Hello {first_name}\n
-        This Is Testing  Email Send\n
-        Activate Your Account Here: http://127.0.0.1:8000/user/activate/{new2}
+        This Email Was Sent To You To Complete Your Registration On UPPING By Activating Your Account Using The Link Below\n
+        Activate Your Account Here: http://127.0.0.1:8000/users/activate/{user_id}
         ''',
         'quadracode4@gmail.com',
         [email, 'fomr777@gmail.com'],
-        fail_silently=False )
+        fail_silently=False
+      )
       return redirect('login_url')
   context = {
     'title' : title,
@@ -97,6 +98,9 @@ def login_view(request):
           return redirect(next)
         else:
           return  redirect('home_url')
+    else:
+      raise ValidationError('Please Enter Your Email And Password')
+
   context={
     'title':title,
     'next':next,
